@@ -1,0 +1,22 @@
+name: ${project.name}
+version: ${project.version}
+main: ${project.mainClass}
+author: ${project.author}
+api-version: 1.13
+permissions:
+   thoushallnotspeak.*:
+      default: op
+   thoushallnotspeak.reload:
+      default: op
+   thoushallnotspeak.bypass:
+      default: op
+commands:
+   thoushallnotspeak:
+      usage: /thoushallnotspeak <reload/delaytime> [delayTime]
+      permission: thoushallnotspeak.reload
+      aliases:
+         - tsns
+         - thoushallns
+         - thousns
+         - notspeak
+         - shallnotspeak
