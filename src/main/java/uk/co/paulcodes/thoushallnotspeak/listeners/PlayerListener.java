@@ -31,12 +31,13 @@ public class PlayerListener implements Listener {
         if(!player.hasPermission("thoushallnotspeak.bypass")) {
             if(!this.cantTalk.contains(player.getUniqueId())) {
                 this.cantTalk.add(player.getUniqueId());
+
+                BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, () -> {
+                    this.cantTalk.remove(player.getUniqueId());
+                    schedulerId.remove(player.getUniqueId());
+                }, this.plugin.getDelayTime());
+                schedulerId.put(player.getUniqueId(), task);
             }
-            BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, () -> {
-                this.cantTalk.remove(player.getUniqueId());
-                schedulerId.remove(player.getUniqueId());
-            }, this.plugin.getDelayTime());
-            schedulerId.put(player.getUniqueId(), task);
         }
     }
 
