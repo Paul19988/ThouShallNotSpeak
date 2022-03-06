@@ -29,15 +29,23 @@ public class PlayerListener implements Listener {
     private void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if(!player.hasPermission("thoushallnotspeak.bypass")) {
-            if(!this.cantTalk.contains(player.getUniqueId())) {
-                this.cantTalk.add(player.getUniqueId());
-
-                BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, () -> {
-                    this.cantTalk.remove(player.getUniqueId());
-                    schedulerId.remove(player.getUniqueId());
-                }, this.plugin.getDelayTime());
-                schedulerId.put(player.getUniqueId(), task);
+            if(plugin.isFirstJoinOnly() && !player.hasPlayedBefore()) {
+                triggerTask(player);
+            }else if(!plugin.isFirstJoinOnly()) {
+                triggerTask(player);
             }
+        }
+    }
+
+    private void triggerTask(Player player) {
+        if(!this.cantTalk.contains(player.getUniqueId())) {
+            this.cantTalk.add(player.getUniqueId());
+
+            BukkitTask task = Bukkit.getScheduler().runTaskLaterAsynchronously(this.plugin, () -> {
+                this.cantTalk.remove(player.getUniqueId());
+                schedulerId.remove(player.getUniqueId());
+            }, this.plugin.getDelayTime());
+            schedulerId.put(player.getUniqueId(), task);
         }
     }
 

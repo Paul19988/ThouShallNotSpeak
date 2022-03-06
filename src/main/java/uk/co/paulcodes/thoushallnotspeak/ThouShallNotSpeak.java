@@ -8,7 +8,8 @@ import uk.co.paulcodes.thoushallnotspeak.listeners.PlayerListener;
 public class ThouShallNotSpeak extends JavaPlugin {
 
     // DECLARE VARIABLES
-    private int delayTime = 0;
+    private int delayTime;
+    private boolean firstJoinOnly;
     private String deniedMessage;
     private String prefix;
     private TSNSCommand tsnsCommand;
@@ -22,6 +23,14 @@ public class ThouShallNotSpeak extends JavaPlugin {
             this.delayTime = 300;
         }else{
             this.delayTime = this.getConfig().getInt("delayTime");
+        }
+
+        if(!this.getConfig().isBoolean("firstJoinOnly")) {
+            this.getConfig().set("firstJoinOnly", false);
+            this.saveConfig();
+            this.firstJoinOnly = false;
+        }else{
+            this.firstJoinOnly = this.getConfig().getBoolean("firstJoinOnly");
         }
 
         if(!this.getConfig().isString("deniedMessage")) {
@@ -56,6 +65,7 @@ public class ThouShallNotSpeak extends JavaPlugin {
     public void reloadConfigs() {
         reloadConfig();
         this.delayTime = this.getConfig().getInt("delayTime");
+        this.firstJoinOnly = this.getConfig().getBoolean("firstJoinOnly");
         this.deniedMessage = this.getConfig().getString("deniedMessage");
         this.prefix = this.getConfig().getString("prefix");
     }
@@ -68,6 +78,10 @@ public class ThouShallNotSpeak extends JavaPlugin {
         this.getConfig().set("delayTime", delayTime);
         this.saveConfig();
         this.delayTime = delayTime;
+    }
+
+    public boolean isFirstJoinOnly() {
+        return firstJoinOnly;
     }
 
     public String getPrefix() {
