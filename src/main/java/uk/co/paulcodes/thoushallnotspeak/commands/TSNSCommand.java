@@ -22,15 +22,23 @@ public class TSNSCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if(cmd.getName().equalsIgnoreCase("thoushallnotspeak")) {
             if(args.length == 1) {
-                if(args[0].equalsIgnoreCase("reload")) {
-                    this.plugin.reloadConfigs();
-                    sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&eSuccessfully reloaded config!"));
+                if(sender.hasPermission("thoushallnotspeak.reload")) {
+                    if(args[0].equalsIgnoreCase("reload")) {
+                        this.plugin.reloadConfigs();
+                        sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&eSuccessfully reloaded config!"));
+                    }
+                }else{
+                    sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&cYou do not have permission for this command!"));
                 }
             }else if(args.length == 2) {
                 if(args[0].equalsIgnoreCase("delaytime")) {
-                    int delayTime = Integer.parseInt(args[1]);
-                    this.plugin.setDelayTime(delayTime);
-                    sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&eDelay time set to &6" + args[1] + " &eseconds."));
+                    if(sender.hasPermission("thoushallnotspeak.reload")) {
+                        int delayTime = Integer.parseInt(args[1]);
+                        this.plugin.setDelayTime(delayTime);
+                        sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&eDelay time set to &6" + args[1] + " &eseconds."));
+                    }else{
+                        sender.sendMessage(this.plugin.getPrefix() + ChatColor.translateAlternateColorCodes('&', "&cYou do not have permission for this command!"));
+                    }
                 }
             }else{
                 sender.sendMessage(this.plugin.getPrefix() + ChatColor.RED + ChatColor.BOLD + "Incorrect arguments, /thoushallnotspeak <reload/delaytime> [delayTime]");

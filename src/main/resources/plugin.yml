@@ -10,6 +10,8 @@ permissions:
       default: op
    thoushallnotspeak.bypass:
       default: op
+   thoushallnotspeak.delaytime:
+      default: op
 commands:
    thoushallnotspeak:
       usage: /thoushallnotspeak <reload/delaytime> [delayTime]
