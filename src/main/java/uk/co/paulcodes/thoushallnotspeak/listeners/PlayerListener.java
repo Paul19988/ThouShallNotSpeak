@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 import uk.co.paulcodes.thoushallnotspeak.ThouShallNotSpeak;
@@ -51,6 +52,16 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        this.cantTalk.remove(player.getUniqueId());
+        if(schedulerId.containsKey(player.getUniqueId())) {
+            Bukkit.getScheduler().cancelTask(schedulerId.get(player.getUniqueId()).getTaskId());
+            schedulerId.remove(player.getUniqueId());
+        }
+    }
+
+    @EventHandler
+    private void onKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
         this.cantTalk.remove(player.getUniqueId());
         if(schedulerId.containsKey(player.getUniqueId())) {
